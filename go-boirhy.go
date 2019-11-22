@@ -61,7 +61,7 @@ func Up() {
     host := "smtp.163.com"
     email := "skyestzhang@163.com"
     password := "4501122z"
-    toEmail := "zhang_tianji@hoperun.com"
+    toEmail := "skyestzhang@163.com"
     from := mail.Address{">>BORIHY<<", email}
     to := mail.Address{"接收人", toEmail}
     header := make(map[string]string)
