@@ -19,6 +19,7 @@ func getDaysFromBirth(birthday string, date string) int64{
 	m_birthday,_ := time.Parse("01/02/2006", birthday);
 	m_date, _ :=time.Parse("01/02/2006",date);
 	duration := (m_date.Unix() - m_birthday.Unix()) / 60/60/24
+	fmt.Println(duration)
 	return	duration
 }
 func formatState(stateType string, days int64) string{
@@ -51,7 +52,7 @@ func formatState(stateType string, days int64) string{
 			s+="low PERIOD"
 		}
 	}
-	s+="\n"
+	s+="<br/>"
 	return s
 }
 
