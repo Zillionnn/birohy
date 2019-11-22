@@ -3,13 +3,16 @@ package main
 import(
 	"fmt"
 	"time"
+	"net/smtp"
+	"net/mail"
+	"encoding/base64"
 )
 
-var bodyState map[string]string
-bodyState = make(map[string]string)
-bodyState["HIGH"]= "HIGH PERIOD"
-bodyState["LOW"]= "LOW PERIOD"
-bodyState["CRITICAL"]= "WARNING, IN CRITICAL DAY!"
+// var bodyState map[string]string
+// bodyState = make(map[string]string)
+// bodyState["HIGH"]= "HIGH PERIOD"
+// bodyState["LOW"]= "LOW PERIOD"
+// bodyState["CRITICAL"]= "WARNING, IN CRITICAL DAY!"
 
 
 func getDaysFromBirth(birthday string, date string) int64{
@@ -18,26 +21,81 @@ func getDaysFromBirth(birthday string, date string) int64{
 	duration := (m_date.Unix() - m_birthday.Unix()) / 60/60/24
 	return	duration
 }
-
-func formatState(type string, days int) string{
-	s:=''
-	if type=="phsical" {
-		if days<12 {
-			s+= bodyState["HIGH"]
+func formatState(stateType string, days int64) string{
+	s:= stateType + " "
+	if stateType=="phiscal" {
+		if days < 12 {
+			s+= "HIGH PERIOD"
 		} else if days ==12 {
-			s+=bodyState["CRITICAL"]
+			s+= "WARNING, IN CRITICAL DAY!"
 		} else {
-			s+=bodyState["LOW"]
+			s+="LOW PERIOD"
+		}
+	}
+	if stateType=="emotion" {
+		if days < 14 {
+			s+= "HIGH PERIOD"
+		} else if days ==14 {
+			s+= "WARNING, IN CRITICAL DAY!"
+		} else {
+			s+="LOW PERIOD"
+		}
+	}
+	if stateType=="inte" {
+		if days < 17 {
+			s+= "HIGH PERIOD"
+		} else if days ==17 {
+			s+= "WARNING, IN CRITICAL DAY!"
+		} else {
+			s+="LOW PERIOD"
 		}
 	}
 	return s
 }
 
+func Up() {
+	b64 := base64.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
+    host := "smtp.163.com"
+    email := "skyestzhang@163.com"
+    password := "ZHANGTIANJI"
+    toEmail := "zhang_tianji@hoperun.com"
+    from := mail.Address{"发送人", email}
+    to := mail.Address{"接收人", toEmail}
+    header := make(map[string]string)
+    header["From"] = from.String()
+    header["To"] = to.String()
+    header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte("邮件标题2")))
+    header["MIME-Version"] = "1.0"
+    header["Content-Type"] = "text/html; charset=UTF-8"
+    header["Content-Transfer-Encoding"] = "base64"
+    body := "我是一封电子邮件!golang发出.";
+    message := ""
+    for k, v := range header {
+        message += fmt.Sprintf("%s: %s\r\n", k, v)
+    }
+    message += "\r\n" + b64.EncodeToString([]byte(body))
+    auth := smtp.PlainAuth(
+        "",
+        email,
+        password,
+        host,
+    )
+    err := smtp.SendMail(
+        host+":25",
+        auth,
+        email,
+        []string{to.Address},
+        []byte(message),
+    )
+    if err != nil {
+        panic(err)
+    }
+	}
+	
 func main()  {
-	duration := getDaysFromBirth("08/07/1993", "11/21/2019")
-	phiscal := duration  % 23
-	emotion := duration %28
-	inte:=duration%33
-
-	fmt.Println(formatState("phiscal", phiscal));
+	// duration := getDaysFromBirth("08/07/1993", "11/22/2019")
+	// phiscal := duration  % 23
+	// emotion := duration %28
+	// inte:=duration%33
+	Up()
 }
