@@ -22,7 +22,8 @@ func getDaysFromBirth(birthday string, date string) int64{
 	return	duration
 }
 func formatState(stateType string, days int64) string{
-	s:= stateType + " "
+	day_s := fmt.Sprintf("%d", days)
+	s:= stateType + " " + day_s + " "
 	if stateType=="phiscal" {
 		if days < 12 {
 			s+= "HIGH PERIOD"
@@ -50,6 +51,7 @@ func formatState(stateType string, days int64) string{
 			s+="LOW PERIOD"
 		}
 	}
+	s+="\r\n"
 	return s
 }
 
@@ -57,18 +59,29 @@ func Up() {
 	b64 := base64.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
     host := "smtp.163.com"
     email := "skyestzhang@163.com"
-    password := "ZHANGTIANJI"
+    password := "4501122z"
     toEmail := "zhang_tianji@hoperun.com"
-    from := mail.Address{"发送人", email}
+    from := mail.Address{">>BORIHY<<", email}
     to := mail.Address{"接收人", toEmail}
     header := make(map[string]string)
     header["From"] = from.String()
     header["To"] = to.String()
-    header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte("邮件标题2")))
+    header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte("今日节律")))
     header["MIME-Version"] = "1.0"
     header["Content-Type"] = "text/html; charset=UTF-8"
-    header["Content-Transfer-Encoding"] = "base64"
-    body := "我是一封电子邮件!golang发出.";
+	header["Content-Transfer-Encoding"] = "base64"
+
+	body := "";
+	tm := time.Now()
+	duration := getDaysFromBirth("08/07/1993", tm.Format("01/02/2006"))
+	phiscal := duration  % 23
+	emotion := duration %28
+	inte:=duration%33
+	body += formatState("phiscal", phiscal)
+	body += formatState("emotion", emotion)
+	body += formatState("inte", inte)
+
+ 
     message := ""
     for k, v := range header {
         message += fmt.Sprintf("%s: %s\r\n", k, v)
@@ -93,9 +106,6 @@ func Up() {
 	}
 	
 func main()  {
-	// duration := getDaysFromBirth("08/07/1993", "11/22/2019")
-	// phiscal := duration  % 23
-	// emotion := duration %28
-	// inte:=duration%33
+	
 	Up()
 }
