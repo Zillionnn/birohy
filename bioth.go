@@ -56,6 +56,7 @@ func formatState(stateType string, days int64) string{
 }
 
 func Up() {
+	tm := time.Now()
 	b64 := base64.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
     host := "smtp.163.com"
     email := "skyestzhang@163.com"
@@ -66,13 +67,13 @@ func Up() {
     header := make(map[string]string)
     header["From"] = from.String()
     header["To"] = to.String()
-    header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte("今日节律")))
+    header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte("节律"+tm.Format("01/02/2006"))))
     header["MIME-Version"] = "1.0"
     header["Content-Type"] = "text/html; charset=UTF-8"
 	header["Content-Transfer-Encoding"] = "base64"
 
 	body := "";
-	tm := time.Now()
+	
 	duration := getDaysFromBirth("08/07/1993", tm.Format("01/02/2006"))
 	phiscal := duration  % 23
 	emotion := duration %28
