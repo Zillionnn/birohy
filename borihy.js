@@ -1,8 +1,9 @@
 function getDaysFromBirth(birthday, date) {
     var r = Math.floor((new Date(date).getTime() - new Date(birthday).getTime()) / 1000 / 60 / 60 / 24);
+    console.log(r)
     return Number(r);
 }
-var days = getDaysFromBirth('1993-8-7', '2019-11-21');
+var days = getDaysFromBirth('1993-8-7', new Date());
 var phsical = days % 23;
 var emotion = days % 28;
 var inte = days % 33;

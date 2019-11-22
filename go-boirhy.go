@@ -26,29 +26,29 @@ func formatState(stateType string, days int64) string{
 	s:= stateType + " " + day_s + " "
 	if stateType=="phiscal" {
 		if days < 12 {
-			s+= "HIGH PERIOD"
+			s+= "high PERIOD"
 		} else if days ==12 {
 			s+= "WARNING, IN CRITICAL DAY!"
 		} else {
-			s+="LOW PERIOD"
+			s+="low PERIOD"
 		}
 	}
 	if stateType=="emotion" {
 		if days < 14 {
-			s+= "HIGH PERIOD"
+			s+= "high PERIOD"
 		} else if days ==14 {
 			s+= "WARNING, IN CRITICAL DAY!"
 		} else {
-			s+="LOW PERIOD"
+			s+="low PERIOD"
 		}
 	}
 	if stateType=="inte" {
 		if days < 17 {
-			s+= "HIGH PERIOD"
+			s+= "high PERIOD"
 		} else if days ==17 {
 			s+= "WARNING, IN CRITICAL DAY!"
 		} else {
-			s+="LOW PERIOD"
+			s+="low PERIOD"
 		}
 	}
 	s+="\n"
