@@ -67,7 +67,7 @@ func Up() {
     header := make(map[string]string)
     header["From"] = from.String()
     header["To"] = to.String()
-    header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte("节律"+tm.Format("01/02/2006"))))
+    header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte("🚀节律"+tm.Format("01/02/2006"))))
     header["MIME-Version"] = "1.0"
     header["Content-Type"] = "text/html; charset=UTF-8"
 	header["Content-Transfer-Encoding"] = "base64"
