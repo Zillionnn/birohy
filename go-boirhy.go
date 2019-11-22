@@ -51,7 +51,7 @@ func formatState(stateType string, days int64) string{
 			s+="LOW PERIOD"
 		}
 	}
-	s+="\r\n"
+	s+="\n"
 	return s
 }
 
